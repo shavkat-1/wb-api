@@ -1,0 +1,40 @@
+
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wb_app
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - wb
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: wb_nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      - wb
+
+  db:
+    image: mysql:8.0
+    container_name: wb_db
+    environment:
+      MYSQL_DATABASE: wb_api
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: wb_user
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - wb
+
+networks:
+  wb:
