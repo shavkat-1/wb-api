@@ -36,8 +36,8 @@ GET /api/orders?dateFrom=2026-02-01&dateTo=2026-03-01&page=1&limit=500&key=YOUR_
 
 ## Источник данных (внешний API)
 
-- **Хост:** `109.73.206.144:6969`
-- **Ключ:** `E6kUTYrYwZq2tN4QEtyzsbEBk3ie`
+- **Хост:** `передаётся отдельно`
+- **Ключ:** `передаётся отдельноe`
 
 ---
 
@@ -100,7 +100,7 @@ GET /api/orders?dateFrom=2026-02-01&dateTo=2026-03-01&page=1&limit=500&key=YOUR_
 | Port | `16031` |
 | Database | `defaultdb` |
 | Username | `avnadmin` |
-| Password | `AVNS_1bWxuvVZwMwMCtSjNKT` |
+| Password | `передаётся отдельно` |
 | SSL | Required (ca.pem) |
 
 
@@ -118,7 +118,7 @@ cd wb-api
 ### 2. Создать `.env`
 
 ```bash
-cp .env.example .env
+cp .env.example .env# хост внешнего API
 ```
 
 Заполнить переменные:
@@ -131,8 +131,8 @@ DB_DATABASE=wb_api
 DB_USERNAME=root
 DB_PASSWORD=secret
 
-API_HOST=109.73.206.144:6969
-API_TOKEN=E6kUTYrYwZq2tN4QEtyzsbEBk3ie
+API_HOST=# хост внешнего API
+API_TOKEN=# ключ внешнего API
 ```
 
 ### 3. Запустить Docker
