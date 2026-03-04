@@ -100,7 +100,7 @@ GET /api/orders?dateFrom=2026-02-01&dateTo=2026-03-01&page=1&limit=500&key=YOUR_
 | Port | `16031` |
 | Database | `defaultdb` |
 | Username | `avnadmin` |
-| Password | `передаётся отдельно` |
+| Password | `AVNS_1bWxuvVZwMwMCtSjNKT` |
 | SSL | Required (ca.pem) |
 
 
