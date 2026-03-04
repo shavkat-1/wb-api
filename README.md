@@ -1,59 +1,190 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# WB API — Laravel Data Fetcher
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Проект стягивает данные с тестового API (Wildberries-подобного) и сохраняет их в MySQL.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Стек
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.3.30
+- Laravel 12.53.0
+- MySQL 8.0
+- Docker / Docker Compose
+- Nginx
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Эндпоинты API
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Сущность | Метод | Путь | Параметры |
+|---|---|---|---|
+| Продажи | GET | `/api/sales` | `dateFrom`, `dateTo` |
+| Заказы | GET | `/api/orders` | `dateFrom`, `dateTo` |
+| Склады | GET | `/api/stocks` | `dateFrom` (только текущий день) |
+| Доходы | GET | `/api/incomes` | `dateFrom`, `dateTo` |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Общие параметры:** `page`, `limit` (макс. 500), `key` (токен авторизации)
 
-## Laravel Sponsors
+**Формат дат:** `Y-m-d`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Пример запроса:**
+```
+GET /api/orders?dateFrom=2026-02-01&dateTo=2026-03-01&page=1&limit=500&key=YOUR_TOKEN
+```
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Источник данных (внешний API)
 
-## Contributing
+- **Хост:** `109.73.206.144:6969`
+- **Ключ:** `E6kUTYrYwZq2tN4QEtyzsbEBk3ie`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Структура таблиц БД
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### `sales`
+| Колонка | Тип |
+|---|---|
+| id | bigint PK |
+| sale_id | varchar UNIQUE |
+| date | datetime |
+| product_name | varchar |
+| sku | varchar |
+| quantity | int |
+| amount | decimal(10,2) |
+| warehouse | varchar |
+| created_at / updated_at | timestamp |
 
-## Security Vulnerabilities
+### `orders`
+| Колонка | Тип |
+|---|---|
+| id | bigint PK |
+| order_id | varchar UNIQUE |
+| sku | varchar |
+| order_date | datetime |
+| customer_name | varchar |
+| total_amount | decimal(10,2) |
+| status | varchar |
+| created_at / updated_at | timestamp |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### `stocks`
+| Колонка | Тип |
+|---|---|
+| id | bigint PK |
+| stock_id | varchar |
+| date | datetime |
+| warehouse | varchar |
+| product_name | varchar |
+| sku | varchar |
+| quantity | int |
+| created_at / updated_at | timestamp |
 
-## License
+### `incomes`
+| Колонка | Тип |
+|---|---|
+| id | bigint PK |
+| income_id | varchar |
+| date | datetime |
+| amount | decimal(10,2) |
+| source | varchar |
+| created_at / updated_at | timestamp |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Доступы к БД (продакшн)
+
+| Параметр | Значение |
+|---|---|
+| Host | `wb-mysql-wb-api-project.i.aivencloud.com` |
+| Port | `16031` |
+| Database | `defaultdb` |
+| Username | `avnadmin` |
+| Password | `AVNS_1bWxuvVZwMwMCtSjNKT` |
+| SSL | Required (ca.pem) |
+
+
+---
+
+## Локальный запуск
+
+### 1. Клонировать репозиторий
+
+```bash
+git clone https://github.com/YOUR_USERNAME/wb-api.git
+cd wb-api
+```
+
+### 2. Создать `.env`
+
+```bash
+cp .env.example .env
+```
+
+Заполнить переменные:
+
+```env
+APP_KEY=          # сгенерировать: php artisan key:generate
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=wb_api
+DB_USERNAME=root
+DB_PASSWORD=secret
+
+API_HOST=109.73.206.144:6969
+API_TOKEN=E6kUTYrYwZq2tN4QEtyzsbEBk3ie
+```
+
+### 3. Запустить Docker
+
+```bash
+docker compose up -d
+```
+
+### 4. Применить миграции
+
+```bash
+docker exec -it wb_app php artisan migrate
+```
+
+### 5. Запустить импорт данных
+
+```bash
+docker exec -it wb_app php artisan import:all
+```
+
+---
+
+## Контейнеры
+
+| Имя | Образ | Порт |
+|---|---|---|
+| wb_nginx | nginx:stable-alpine | 8000 → 80 |
+| wb_app | wb-api-app (PHP-FPM) | 9000 |
+| wb_db | mysql:8.0 | 3306 |
+
+---
+
+## Архитектура кода
+
+```
+app/
+├── Filters/
+│   ├── FilterInterface.php     — контракт
+│   ├── BaseFilter.php          — пагинация, лимит, appends
+│   ├── SaleFilter.php
+│   ├── OrderFilter.php
+│   ├── StockFilter.php
+│   └── IncomeFilter.php
+├── Http/
+│   ├── Controllers/Api/        — тонкие контроллеры
+│   ├── Middleware/
+│   │   └── CheckApiKey.php     — авторизация по токену
+│   ├── Requests/               — валидация входных параметров
+│   └── Resources/              — форматирование JSON-ответов
+└── Models/
+    ├── Sale.php
+    ├── Order.php
+    ├── Stock.php
+    └── Income.php
+```

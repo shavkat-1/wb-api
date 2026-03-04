@@ -7,15 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'order_id',
-        'sku',
-        'order_date',
-        'customer_name',
-        'total_amount',
-        'status',
+        'g_number',
+        'date',
+        'last_change_date',
+        'supplier_article',
+        'tech_size',
+        'barcode',
+        'total_price',
+        'discount_percent',
+        'warehouse_name',
+        'oblast',
+        'income_id',
+        'odid',
+        'nm_id',
+        'subject',
+        'category',
+        'brand',
+        'is_cancel',
+        'cancel_dt',
     ];
 
     protected $casts = [
-        'order_date' => 'datetime',
+        'date'      => 'datetime',
+        'cancel_dt' => 'datetime',
+        'is_cancel' => 'boolean',
     ];
 }

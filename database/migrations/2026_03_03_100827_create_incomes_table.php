@@ -6,24 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-         Schema::create('incomes', function (Blueprint $table) {
+        Schema::create('incomes', function (Blueprint $table) {
             $table->id();
-            $table->string('income_id')->unique();        // ID дохода из API
-            $table->date('date')->nullable();            // дата дохода (Y-m-d)
-            $table->decimal('amount', 10,2)->default(0); // сумма, дефолт 0
-            $table->string('source')->nullable();        // источник дохода
+            $table->bigInteger('income_id')->nullable()->index();
+            $table->string('number')->nullable();
+            $table->date('date')->nullable()->index();
+            $table->date('last_change_date')->nullable();
+            $table->string('supplier_article')->nullable();
+            $table->string('tech_size')->nullable();
+            $table->bigInteger('barcode')->nullable();
+            $table->integer('quantity')->default(0);
+            $table->decimal('total_price', 12, 2)->nullable();
+            $table->date('date_close')->nullable();
+            $table->string('warehouse_name')->nullable();
+            $table->bigInteger('nm_id')->nullable()->index();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('incomes');

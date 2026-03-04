@@ -10,12 +10,24 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('order_id')->unique();
-            $table->string('sku')->nullable();
-            $table->dateTime('order_date')->nullable()->index();
-            $table->string('customer_name')->nullable();
-            $table->decimal('total_amount', 10, 2)->nullable();
-            $table->string('status')->nullable()->index();
+            $table->string('g_number')->nullable()->index();
+            $table->dateTime('date')->nullable()->index();
+            $table->date('last_change_date')->nullable();
+            $table->string('supplier_article')->nullable();
+            $table->string('tech_size')->nullable();
+            $table->bigInteger('barcode')->nullable();
+            $table->decimal('total_price', 12, 2)->nullable();
+            $table->integer('discount_percent')->nullable();
+            $table->string('warehouse_name')->nullable();
+            $table->string('oblast')->nullable();
+            $table->bigInteger('income_id')->nullable();
+            $table->string('odid')->nullable();
+            $table->bigInteger('nm_id')->nullable()->index();
+            $table->string('subject')->nullable();
+            $table->string('category')->nullable();
+            $table->string('brand')->nullable();
+            $table->boolean('is_cancel')->default(false)->index();
+            $table->dateTime('cancel_dt')->nullable();
             $table->timestamps();
         });
     }

@@ -6,27 +6,33 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('stock_id')->unique();       // ID записи склада из API
-            $table->date('date')->nullable();           // дата выгрузки
-            $table->string('warehouse')->nullable();    // склад
-
-            $table->string('product_name')->nullable(); // продукт
-            $table->string('sku')->nullable();          // артикул
-            $table->integer('quantity')->default(0);    // количество на складе
+            $table->date('date')->nullable()->index();
+            $table->date('last_change_date')->nullable();
+            $table->string('supplier_article')->nullable();
+            $table->string('tech_size')->nullable();
+            $table->bigInteger('barcode')->nullable()->index();
+            $table->integer('quantity')->default(0);
+            $table->boolean('is_supply')->default(false);
+            $table->boolean('is_realization')->default(false);
+            $table->integer('quantity_full')->default(0);
+            $table->string('warehouse_name')->nullable();
+            $table->integer('in_way_to_client')->default(0);
+            $table->integer('in_way_from_client')->default(0);
+            $table->bigInteger('nm_id')->nullable()->index();
+            $table->string('subject')->nullable();
+            $table->string('category')->nullable();
+            $table->string('brand')->nullable();
+            $table->bigInteger('sc_code')->nullable();
+            $table->decimal('price', 12, 2)->nullable();
+            $table->integer('discount')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('stocks');

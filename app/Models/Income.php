@@ -8,12 +8,21 @@ class Income extends Model
 {
     protected $fillable = [
         'income_id',
+        'number',
         'date',
-        'amount',
-        'source',
+        'last_change_date',
+        'supplier_article',
+        'tech_size',
+        'barcode',
+        'quantity',
+        'total_price',
+        'date_close',
+        'warehouse_name',
+        'nm_id',
     ];
 
     protected $casts = [
-        'date' => 'datetime',
+        'date'       => 'date',
+        'date_close' => 'date',
     ];
 }

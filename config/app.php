@@ -124,6 +124,7 @@ return [
     ],
     
 
-    'api_key' => env('API_KEY'),
+    'api_host' => env('API_HOST'),
+    'api_key'  => env('API_KEY'),
 
 ];
