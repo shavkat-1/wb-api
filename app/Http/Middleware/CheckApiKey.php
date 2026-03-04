@@ -15,7 +15,7 @@ class CheckApiKey
      */
     public function handle(Request $request, Closure $next): Response
     {
-       $key = $request->query('key');
+      $key = $request->query('key');
 
         if (!$key || $key !== config('app.api_key')) {
             return response()->json([

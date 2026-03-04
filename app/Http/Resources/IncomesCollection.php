@@ -7,19 +7,22 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class IncomesCollection extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @return array<int|string, mixed>
-     */
     public function toArray(Request $request): array
     {
-      return $this->collection->map(fn($income) => [
-            'id'         => $income->id,
-            'income_id' => $income->income_id,
-            'source'     => $income->source,
-            'amount'     => $income->amount,
-            'date'       => $income->date->format('Y-m-d'),
+        return $this->collection->map(fn($income) => [
+            'id'               => $income->id,
+            'income_id'        => $income->income_id,
+            'number'           => $income->number,
+            'date'             => $income->date,
+            'last_change_date' => $income->last_change_date,
+            'supplier_article' => $income->supplier_article,
+            'tech_size'        => $income->tech_size,
+            'barcode'          => $income->barcode,
+            'quantity'         => $income->quantity,
+            'total_price'      => $income->total_price,
+            'date_close'       => $income->date_close,
+            'warehouse_name'   => $income->warehouse_name,
+            'nm_id'            => $income->nm_id,
         ])->all();
     }
 }
