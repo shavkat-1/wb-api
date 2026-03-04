@@ -12,14 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sales', function (Blueprint $table) {
-    $table->id();                    // внутренний PK Laravel
-    $table->string('sale_id')->unique(); // ID продажи из API
-    $table->date('date');            // дата продажи (Y-m-d)
-    $table->string('product_name');  // название продукта
-    $table->integer('quantity');     // количество
-    $table->decimal('amount', 10,2); // сумма
-    $table->string('warehouse')->nullable(); // склад, если API отдаёт
-    $table->timestamps();            // created_at, updated_at
+    $table->id();
+    $table->string('sale_id')->unique();
+    $table->date('date');
+
+    $table->string('product_name')->nullable();
+    $table->string('sku')->nullable();
+
+    $table->integer('quantity')->nullable();    
+    $table->decimal('amount', 10,2)->nullable(); 
+
+    $table->string('warehouse')->nullable();
+
+    $table->timestamps();
 });
     }
 

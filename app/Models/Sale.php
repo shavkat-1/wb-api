@@ -10,8 +10,13 @@ class Sale extends Model
         'sale_id',
         'date',
         'product_name',
+        'sku',
         'quantity',
         'amount',
         'warehouse',
+    ];
+
+    protected $casts = [
+        'date' => 'datetime',
     ];
 }

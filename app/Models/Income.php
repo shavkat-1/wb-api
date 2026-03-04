@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Income extends Model
 {
-    // Доходы от продаж, возвратов, комиссий и т.д.
     protected $fillable = [
         'income_id',
         'date',
         'amount',
         'source',
+    ];
+
+    protected $casts = [
+        'date' => 'datetime',
     ];
 }

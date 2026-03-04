@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('incomes', function (Blueprint $table) {
-    $table->id();
-    $table->string('income_id')->unique();  // ID дохода из API
-    $table->date('date');                   // дата дохода (Y-m-d)
-    $table->decimal('amount', 10,2);       // сумма
-    $table->string('source')->nullable();   // источник дохода
-    $table->timestamps();
-});
+         Schema::create('incomes', function (Blueprint $table) {
+            $table->id();
+            $table->string('income_id')->unique();        // ID дохода из API
+            $table->date('date')->nullable();            // дата дохода (Y-m-d)
+            $table->decimal('amount', 10,2)->default(0); // сумма, дефолт 0
+            $table->string('source')->nullable();        // источник дохода
+            $table->timestamps();
+        });
     }
 
     /**

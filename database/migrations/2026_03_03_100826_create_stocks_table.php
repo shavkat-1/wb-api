@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stocks', function (Blueprint $table) {
-    $table->id();
-    $table->string('stock_id')->unique();  // ID записи склада из API
-    $table->date('date');                  // дата выгрузки
-    $table->string('warehouse');           // склад
-    $table->string('product_name');        // продукт
-    $table->integer('quantity');           // количество на складе
-    $table->timestamps();
-});
+            $table->id();
+            $table->string('stock_id')->unique();       // ID записи склада из API
+            $table->date('date')->nullable();           // дата выгрузки
+            $table->string('warehouse')->nullable();    // склад
+
+            $table->string('product_name')->nullable(); // продукт
+            $table->string('sku')->nullable();          // артикул
+            $table->integer('quantity')->default(0);    // количество на складе
+            $table->timestamps();
+        });
     }
 
     /**

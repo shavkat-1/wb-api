@@ -11,6 +11,11 @@ class Stock extends Model
         'date',
         'warehouse',
         'product_name',
+        'sku',
         'quantity',
-    ];  
+    ];
+
+    protected $casts = [
+        'date' => 'datetime',
+    ];
 }

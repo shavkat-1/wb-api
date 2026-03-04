@@ -6,25 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-    $table->id();
-    $table->string('order_id')->unique();    // ID заказа из API
-    $table->dateTime('order_date');          // дата+время заказа (Y-m-d H:i:s)
-    $table->string('customer_name')->nullable(); // имя покупателя
-    $table->decimal('total_amount', 10,2);  // сумма заказа
-    $table->string('status')->nullable();    // статус заказа
-    $table->timestamps();
-});
+            $table->id();
+            $table->string('order_id')->unique();
+            $table->string('sku')->nullable();
+            $table->dateTime('order_date')->nullable()->index();
+            $table->string('customer_name')->nullable();
+            $table->decimal('total_amount', 10, 2)->nullable();
+            $table->string('status')->nullable()->index();
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('orders');
